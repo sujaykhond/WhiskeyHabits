@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useStore } from '../store'
 import { useMutation } from '@apollo/client'
@@ -34,6 +35,9 @@ function Auth({ isLogin }) {
                 user: userData[resolverName],
             }))
 
+            // Store the JWT token in local storage
+            localStorage.setItem('token', userData.token)
+
             setFormData(initialFormData)
             setErrorMessage('')
 
@@ -49,6 +53,14 @@ function Auth({ isLogin }) {
             [e.target.name]: e.target.value,
         })
     }
+
+    // Effect to check for existing authentication token on page load
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            navigate('/');
+        }
+    }, [navigate]);
 
     return (
         <main className="auth flex items-center justify-center">

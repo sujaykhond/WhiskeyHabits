@@ -7,9 +7,11 @@ function Profile() {
     const { user } = useStore()
     const navigate = useNavigate()
 
+    console.log(user)
+
     useEffect(() => {
-        // Redirect to login page if user is not logged in
-        if (!user) {
+        // Check if there is no user object or no token in local storage
+        if (!user || !localStorage.getItem('token')) {
             navigate('/login')
         }
     }, [user, navigate])
