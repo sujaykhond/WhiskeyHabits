@@ -15,7 +15,6 @@ const user_resolvers = {
             try {
                 const user = User.findById(userId);
                 return user;
-
             } catch (err) {
                 throw new Error('User not found');
             }
@@ -35,7 +34,7 @@ const user_resolvers = {
                     httpOnly: true
                 });
 
-                return user;
+                return { user, token };
 
             } catch (err) {
                 let message;
@@ -76,7 +75,7 @@ const user_resolvers = {
                     secure: process.env.PORT ? true : false
                 });
 
-                return user;
+                return { user, token };
 
             } catch (err) {
                 throw new Error(err);

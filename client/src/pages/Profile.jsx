@@ -1,7 +1,8 @@
 import { useStore } from "../store"
 import { useEffect } from 'react'
-
 import { useNavigate } from "react-router-dom"
+
+import * as auth from '../utils/authenticate'
 
 function Profile() {
     const { user } = useStore()
@@ -10,11 +11,10 @@ function Profile() {
     console.log(user)
 
     useEffect(() => {
-        // Check if there is no user object or no token in local storage
-        if (!user || !localStorage.getItem('token')) {
-            navigate('/login')
+        if (!auth.loggedIn()) {
+            navigate('/login');
         }
-    }, [user, navigate])
+    }, [navigate]);
 
     return (
         <section className="profile mt-10">

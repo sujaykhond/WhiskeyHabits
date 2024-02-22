@@ -1,11 +1,13 @@
 const { sign, verify } = require('jsonwebtoken');
 const { User } = require('../models');
 
+const expiration = '2h';
+
 // Function to create a JWT token for a user
 async function createToken(user_id) {
     try {
         // Sign the user ID to create a JWT token
-        const token = await sign({ user_id }, process.env.JWT_SECRET);
+        const token = await sign({ user_id }, process.env.JWT_SECRET, { expiresIn: expiration });
 
         // Return the generated token
         return token;
@@ -24,7 +26,7 @@ async function authenticate({ req, res }) {
     try {
         // Verify the token's validity and extract user ID
         const data = await verify(token, process.env.JWT_SECRET, {
-            maxAge: '2hr' // Set the maximum age for token validity
+            maxAge: expiration
         });
 
         // Retrieve the user information from the database using the user ID

@@ -4,6 +4,8 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useStore } from '../store'
 import { useMutation } from '@apollo/client'
 
+import * as auth from '../utils/authenticate'
+
 import { REGISTER, LOGIN } from '../utils/mutations'
 
 const initialFormData = {
@@ -35,8 +37,10 @@ function Auth({ isLogin }) {
                 user: userData[resolverName],
             }))
 
-            // Store the JWT token in local storage
-            localStorage.setItem('token', userData.token)
+            console.log('data.login.token:', data.login.token)
+            
+            // Set the JWT to local storage and redirect to the home page
+            auth.login(data.login.token);
 
             setFormData(initialFormData)
             setErrorMessage('')
@@ -57,10 +61,10 @@ function Auth({ isLogin }) {
     // Effect to check for existing authentication token on page load
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if (token) {
-            navigate('/');
+        if (token && user) {
+            navigate('/profile');
         }
-    }, [navigate]);
+    }, [user, navigate]);
 
     return (
         <main className="auth flex items-center justify-center">
