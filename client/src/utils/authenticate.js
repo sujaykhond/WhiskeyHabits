@@ -1,16 +1,16 @@
-import decode from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 
 function getUser() {
-  return decode(getToken())
+  return jwtDecode(getToken())
 }
 
 function loggedIn() {
   const token = getToken()
-  return token && !isTokenExpired(token) ? true : false
+  return token && !isTokenExpired(token)
 }
 
 function isTokenExpired(token) {
-  const decoded = decode(token)
+  const decoded = jwtDecode(token)
   if (decoded.exp < Date.now() / 1000) {
     localStorage.removeItem('id_token')
     return true
@@ -19,13 +19,11 @@ function isTokenExpired(token) {
 }
 
 function getToken() {
-  console.log('getToken() localstorage token:', localStorage.getItem('id_token'))
   return localStorage.getItem('id_token')
 }
 
 function login(idToken) {
   localStorage.setItem('id_token', idToken)
-  console.log('login function token', idToken)
   window.location.assign('/')
 }
 

@@ -37,10 +37,10 @@ function Auth({ isLogin }) {
                 user: userData[resolverName],
             }))
 
-            console.log('data.login.token:', data.login.token)
+            console.log('data.login.token:', userData.login.token)
             
             // Set the JWT to local storage and redirect to the home page
-            auth.login(data.login.token);
+            auth.login(userData.login.token)
 
             setFormData(initialFormData)
             setErrorMessage('')
@@ -59,12 +59,11 @@ function Auth({ isLogin }) {
     }
 
     // Effect to check for existing authentication token on page load
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token && user) {
-            navigate('/profile');
-        }
-    }, [user, navigate]);
+    // useEffect(() => {
+    //     if (auth.loggedIn()) {
+    //         navigate('/profile')
+    //     }
+    // }, [navigate])
 
     return (
         <main className="auth flex items-center justify-center">

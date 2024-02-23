@@ -8,8 +8,8 @@ function Profile() {
     const { user } = useStore()
     const navigate = useNavigate()
 
-    console.log(user)
-
+    // This doesn't work bc useEffect does not wait for localStorage to finish retreiving the token. 
+    // https://stackoverflow.com/questions/61178240/useeffect-does-not-listen-for-localstorage
     useEffect(() => {
         if (!auth.loggedIn()) {
             navigate('/login');
